@@ -31,12 +31,19 @@ export default function Transactions() {
       return;
     }
     
+    // check if there is sufficient balance on account
     if ((action === "transfer" || action === "withdraw") && amount > balance) {
       alert("insufficent balance on account")
       return;
     }
 
-    if (action === "transfer") {
+    // check if there is a name in the recipient field
+    if (action === "transfer" && recipient == "") {
+      alert("please enter recipient name")
+      return
+    }
+
+    if (action === "transfer" && recipient != "") {
       // The `transfer` action is dispatched with a payload containing
       // the amount and the recipient.
       dispatch(transfer({ amount, recipient }));
