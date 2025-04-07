@@ -25,6 +25,17 @@ export default function Transactions() {
     const amount = +amountStr;
 
     // TODO: Dispatch the appropriate transaction action based on `action`
+    // check if value of transaction is 0 or lower
+    if (amount <= 0) {
+      alert("please enter a valid amount greater than $0")
+      return;
+    }
+    
+    if ((action === "transfer" || action === "withdraw") && amount > balance) {
+      alert("insufficent balance on account")
+      return;
+    }
+
     if (action === "transfer") {
       // The `transfer` action is dispatched with a payload containing
       // the amount and the recipient.
