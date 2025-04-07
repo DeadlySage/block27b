@@ -11,9 +11,11 @@ import { createSlice } from "@reduxjs/toolkit";
 // TODO: Set initial state to have a balance of 0 and an empty array of transactions.
 
 /** @type {{balance: number, history: Transaction[]}} */
+
+// check sessionStorage, if balance info exist intilize that otherwise initilize empty balance and history
 const initialState = {
-  balance: 0,
-  history: []
+  balance: sessionStorage.getItem("balance") ? JSON.parse(sessionStorage.getItem("balance")) : 0,
+  history: sessionStorage.getItem("history") ? JSON.parse(sessionStorage.getItem("history")) : []
 };
 
 /* TODO
@@ -37,6 +39,10 @@ const transactionsSlice = createSlice({
         amount: payload.amount,
         balance: state.balance,
       });
+
+      //save changes to sessionStorage to persist between refreshes
+      sessionStorage.setItem("balance", JSON.stringify(state.balance));
+      sessionStorage.setItem("history", JSON.stringify(state.history));
     },
 
     deposit: (state, { payload }) => {
@@ -45,7 +51,11 @@ const transactionsSlice = createSlice({
         type: "deposit",
         amount: payload.amount,
         balance: state.balance,
-      })
+      });
+
+      //save changes to sessionStorage to persist between refreshes
+      sessionStorage.setItem("balance", JSON.stringify(state.balance));
+      sessionStorage.setItem("history", JSON.stringify(state.history));
     },
 
     transfer: (state, { payload }) => {
@@ -54,8 +64,11 @@ const transactionsSlice = createSlice({
         type: `transfer/${payload.recipient}`,
         amount: payload.amount,
         balance: state.balance,
-      })
-    
+      });
+
+      //save changes to sessionStorage to persist between refreshes
+      sessionStorage.setItem("balance", JSON.stringify(state.balance));
+      sessionStorage.setItem("history", JSON.stringify(state.history));
     }
   },
 });
